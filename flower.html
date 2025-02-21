@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 500px;
+      background: linear-gradient(to bottom, #e8f4f8, #d4eaf2);
+      position: relative;
+      overflow: hidden;
+      padding-top: 100px; 
+    }
+
+    .tulip {
+      position: relative;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .tulip:hover {
+      transform: scale(1.05);
+    }
+
+    .stem {
+      z-index: 1;
+      width: 6px;
+      height: 200px;
+      background: linear-gradient(to right, #2d5a27, #4a8a3f, #2d5a27);
+      position: absolute;
+      bottom: -65px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-2deg);
+      border-radius: 10px;
+      box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .leaf {
+      width: 80px;
+      height: 30px;
+      background: linear-gradient(145deg, #4a8a3f, #68b95c);
+      position: absolute;
+      bottom: 80px;
+      left: -80px;
+      border-radius: 100% 0 100% 0;
+      transform: rotate(35deg);
+      transform-origin: left bottom;
+      box-shadow: inset -2px -2px 6px rgba(0,0,0,0.1);
+    }
+
+    .leaf::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(145deg, #68b95c, #4a8a3f);
+      border-radius: 100% 0 100% 0;
+      transform: rotate(-70deg);
+      transform-origin: left bottom;
+      left: 75px;
+      top: -40px;
+      box-shadow: inset -2px -2px 6px rgba(0,0,0,0.1);
+    }
+
+    .flower {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      bottom: 180px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: gentleSway 5s ease-in-out infinite;
+      z-index: 2;
+    }
+
+    @keyframes gentleSway {
+      0%, 100% { transform: translateX(-50%) rotate(-2deg); }
+      50% { transform: translateX(-50%) rotate(2deg); }
+    }
+
+    .petal {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      top: 95px;
+      left: 35px;
+      background: linear-gradient(145deg, #ff9ec5, #ff69b4);
+      border-radius: 50%;
+      transform-origin: center;
+      box-shadow: inset -2px -2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .petal::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(145deg, rgba(255,255,255,0.2), transparent);
+      border-radius: inherit;
+    }
+
+    .petal:nth-child(1) { transform: translateY(-25px); z-index: 5; }
+    .petal:nth-child(2) { transform: translate(25px, -15px); z-index: 4; }
+    .petal:nth-child(3) { transform: translate(-25px, -15px); z-index: 4; }
+    .petal:nth-child(4) { transform: translate(25px, 15px); z-index: 3; }
+    .petal:nth-child(5) { transform: translate(-25px, 15px); z-index: 3; }
+    .petal:nth-child(6) { transform: translateY(25px); z-index: 2; }
+
+    .center {
+      position: absolute;
+      width: 35px;
+      height: 35px;
+      background: radial-gradient(#ffd700, #ffeb3b);
+      border-radius: 50%;
+      top: 100%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 6;
+      box-shadow: inset -2px -2px 6px rgba(0,0,0,0.1);
+    }
+
+    .center::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(transparent 30%, rgba(0,0,0,0.1));
+      border-radius: 50%;
+    }
+
+    .water-button {
+      position: absolute;
+      bottom: 20px;
+      padding: 12px 24px;
+      background: linear-gradient(to bottom, #5a9de9, #4a90e2);
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .water-button:hover {
+      background: linear-gradient(to bottom, #4a90e2, #357abd);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .water-drop {
+      position: absolute;
+      top: 50px;
+      width: 12px;
+      height: 12px;
+      background: linear-gradient(145deg, #5a9de9, #4a90e2);
+      border-radius: 50%;
+      opacity: 0;
+    }
+
+    @keyframes waterDrop {
+      0% { 
+        transform: translateY(-50px) scale(1);
+        opacity: 0.8;
+      }
+      100% { 
+        transform: translateY(200px) scale(0.5);
+        opacity: 0;
+      }
+    }
+
+    .tooltip {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 15px 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      opacity: 0;
+      transition: all 0.3s ease;
+      pointer-events: none;
+      bottom: 100%; 
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      color: #333;
+      text-align: center;
+      width: max-content;
+      max-width: 220px;
+      margin-bottom: 20px; 
+      z-index: 10; 
+    }
+
+    .message {
+      color: #ff69b4;
+      font-weight: bold;
+      margin-top: 8px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .tulip:hover .tooltip {
+      opacity: 1;
+      transform: translateX(-50%) translateY(-10px);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="tulip">
+      <div class="tooltip">
+        Pink Tulip (Tulipa gesneriana)
+        <div class="message">You are loved,<br>you are special,<br>take good care of yourself! ❤️</div>
+      </div>
+      <div class="flower">
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="center"></div>
+      </div>
+      <div class="stem"></div>
+      <div class="leaf"></div>
+    </div>
+    <button class="water-button" onclick="waterFlower()">Water the Tulip</button>
+  </div>
+
+  <script>
+    function waterFlower() {
+      for (let i = 0; i < 5; i++) {
+        setTimeout(() => {
+          const drop = document.createElement('div');
+          drop.className = 'water-drop';
+          drop.style.left = `${Math.random() * 80 + 10}%`;
+          drop.style.animation = 'waterDrop 1.5s ease-in forwards';
+          document.querySelector('.container').appendChild(drop);
+          setTimeout(() => drop.remove(), 1500);
+        }, i * 200);
+      }
+    }
+  </script>
+</body>
+</html>
